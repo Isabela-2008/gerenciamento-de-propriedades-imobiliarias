@@ -1,0 +1,26 @@
+# Ignorar arquivos de backup de banco de dados
+*.bak
+*.sql~
+
+# Ignorar arquivos temporários criados por editores
+*.swp
+*.swo
+
+# Ignorar arquivos de configuração local (se houver)
+config_local.json
+*.env
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar diretórios de build (se houver)
+build/
+dist/
+
+# Ignorar arquivos gerados automaticamente (se houver)
+*.tmp
+*.cache
+
+# Ignorar arquivos de teste gerados
+*.test
+
