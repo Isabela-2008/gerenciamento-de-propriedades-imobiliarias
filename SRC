@@ -1,0 +1,93 @@
+CREATE TABLE IF NOT EXISTS Propriedades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(255) NOT NULL,
+    tipo ENUM('Casa', 'Apartamento', 'Terreno') NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    status ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    interesse ENUM('Compra', 'Aluguel') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Agentes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Transacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    agente_id INT NOT NULL,
+    propriedade_id INT NOT NULL,
+    data_transacao DATE NOT NULL,
+    tipo_transacao ENUM('Compra', 'Aluguel') NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
+    FOREIGN KEY (agente_id) REFERENCES Agentes(id),
+    FOREIGN KEY (propriedade_id) REFERENCES Propriedades(id)
+);
+
+INSERT INTO Propriedades (endereco, tipo, valor, status)
+VALUES
+('Rua A, 123', 'Casa', 350000.00, 'Disponível'),
+('Av. B, 456', 'Apartamento', 250000.00, 'Vendido'),
+('Rua C, 789', 'Terreno', 100000.00, 'Alugado');
+
+INSERT INTO Clientes (nome, telefone, email, interesse)
+VALUES
+('João Silva', '123456789', 'joao@gmail.com', 'Compra'),
+('Maria Souza', '987654321', 'maria@gmail.com', 'Aluguel');
+
+INSERT INTO Agentes (nome, telefone, email)
+VALUES
+('Carlos Oliveira', '123123123', 'carlos@imobiliaria.com'),
+('Ana Mendes', '321321321', 'ana@imobiliaria.com');
+
+INSERT INTO Transacoes (cliente_id, agente_id, propriedade_id, data_transacao, tipo_transacao)
+VALUES
+(1, 1, 1, '2024-08-01', 'Compra'),
+(2, 2, 3, '2024-08-15', 'Aluguel');
+
+SELECT * FROM Propriedades WHERE status = 'Disponível';
+
+SELECT * FROM Transacoes WHERE tipo_transacao = 'Compra';
+
+SELECT 
+    Transacoes.id AS transacao_id,
+    Clientes.nome AS cliente,
+    Agentes.nome AS agente,
+    Propriedades.endereco AS propriedade,
+    Transacoes.data_transacao,
+    Transacoes.tipo_transacao
+FROM Transacoes
+JOIN Clientes ON Transacoes.cliente_id = Clientes.id
+JOIN Agentes ON Transacoes.agente_id = Agentes.id
+JOIN Propriedades ON Transacoes.propriedade_id = Propriedades.id;
+
+UPDATE Propriedades SET status = 'Vendido' WHERE id = 1;
+
+UPDATE Propriedades SET status = 'Vendido' WHERE id = 1;
+
+UPDATE Clientes SET telefone = '999999999' WHERE id = 1;
+
+DELETE FROM Clientes WHERE id = 2;
+
+DELETE FROM Propriedades WHERE id = 2;
+
+SELECT 
+    Transacoes.id AS transacao_id,
+    Clientes.nome AS cliente,
+    Agentes.nome AS agente,
+    Propriedades.endereco AS propriedade,
+    Transacoes.data_transacao,
+    Transacoes.tipo_transacao
+FROM Transacoes
+JOIN Clientes ON Transacoes.cliente_id = Clientes.id
+JOIN Agentes ON Transacoes.agente_id = Agentes.id
+JOIN Propriedades ON Transacoes.propriedade_id = Propriedades.id;
