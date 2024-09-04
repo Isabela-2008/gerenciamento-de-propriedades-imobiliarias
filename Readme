@@ -1,0 +1,75 @@
+Enunciado
+Projeto de Banco de Dados Imobiliário
+
+Este projeto envolve a criação e gerenciamento de um banco de dados para uma imobiliária. O objetivo é implementar um sistema que gerencie informações sobre propriedades, clientes, agentes e transações imobiliárias. As principais funcionalidades incluem:
+
+Criação de Tabelas:
+
+Propriedades: Armazena detalhes sobre as propriedades, como endereço, tipo (casa, apartamento, terreno), valor e status (disponível, vendido, alugado).
+Clientes: Armazena informações sobre os clientes, incluindo nome, telefone, e-mail e tipo de interesse (compra ou aluguel).
+Agentes: Armazena informações sobre os agentes imobiliários, como nome, telefone e e-mail.
+Transações: Registra as transações de compra e aluguel, associando clientes, agentes e propriedades.
+Inserção de Dados:
+
+Dados fictícios para testar o sistema, incluindo propriedades, clientes, agentes e transações.
+Consultas SQL:
+
+Consultas para listar propriedades disponíveis, transações de compra e detalhes completos de transações.
+Atualização e Exclusão de Dados:
+
+Comandos para atualizar o status de propriedades e o telefone de clientes, bem como excluir registros desnecessários.
+
+# Banco de Dados Imobiliário
+
+## Descrição
+
+Este projeto é um banco de dados para gerenciamento imobiliário. Ele inclui a criação e manipulação de tabelas para propriedades, clientes, agentes e transações.
+
+## Estrutura do Banco de Dados
+
+### Tabelas
+
+- **Propriedades**: Contém informações sobre cada propriedade.
+- **Clientes**: Contém informações sobre os clientes.
+- **Agentes**: Contém informações sobre os agentes imobiliários.
+- **Transacoes**: Registra transações associando clientes, agentes e propriedades.
+
+### Comandos SQL
+
+#### Criação de Tabelas
+
+```sql
+CREATE TABLE IF NOT EXISTS Propriedades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(255) NOT NULL,
+    tipo ENUM('Casa', 'Apartamento', 'Terreno') NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    status ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    interesse ENUM('Compra', 'Aluguel') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Agentes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Transacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    agente_id INT NOT NULL,
+    propriedade_id INT NOT NULL,
+    data_transacao DATE NOT NULL,
+    tipo_transacao ENUM('Compra', 'Aluguel') NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
+    FOREIGN KEY (agente_id) REFERENCES Agentes(id),
+    FOREIGN KEY (propriedade_id) REFERENCES Propriedades(id)
+);
